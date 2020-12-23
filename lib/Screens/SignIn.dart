@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_practice/Screens/ForgotPassword.dart';
 import 'package:flutter_practice/Screens/Homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -108,7 +109,20 @@ class _SignInScreenState extends State<SignInScreen> {
                       'Submit',
                       style: TextStyle(fontSize: 18),
                     ),
-                  )
+                  ),
+                  
+                   FlatButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          ForgotPassword.id,
+                        );
+                      },
+                      child: Text(
+                        'Forgot Password?',
+                        style: TextStyle( fontSize: 12),
+                      ),
+                    ),
                 ],
               ),
             ),

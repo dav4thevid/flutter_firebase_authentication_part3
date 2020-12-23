@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/Screens/ConfirmEmail.dart';
+import 'package:flutter_practice/Screens/ForgotPassword.dart';
 import 'package:flutter_practice/Screens/Homepage.dart';
 import 'package:flutter_practice/Screens/SignIn.dart';
 import 'package:flutter_practice/Screens/SignUp.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         SignInScreen.id: (context) => SignInScreen(),
         HomepageScreen.id: (context) => HomepageScreen(),
         ConfirmEmail.id: (context) => ConfirmEmail(),
+        ForgotPassword.id: (context) => ForgotPassword(),
       },
     );
   }
