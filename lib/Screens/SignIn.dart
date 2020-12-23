@@ -2,13 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_practice/Screens/Homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   static String id = 'sign-in';
+
+  @override
+  _SignInScreenState createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
+
   final _auth = FirebaseAuth.instance;
+
   String _email;
+
   String _password;
+
+  Future signIn() async {
+    _formKey.currentState.save();
+    try {
+      final user = await _auth.signInWithEmailAndPassword(
+          email: _email, password: _password);
+      if (user.user.emailVerified) {
+        Navigator.pushNamed(context, HomepageScreen.id);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +77,7 @@ class SignInScreen extends StatelessWidget {
                     ),
                   ),
                   TextFormField(
-                     onSaved: (newPass) {
+                    onSaved: (newPass) {
                       _password = newPass;
                     },
                     obscureText: true,
@@ -82,18 +103,7 @@ class SignInScreen extends StatelessWidget {
                     ),
                   ),
                   RaisedButton(
-                    onPressed: () async {
-                      _formKey.currentState.save();
-                      try {
-                        final user = await _auth.signInWithEmailAndPassword(
-                            email: _email, password: _password);
-                        if (user != null) {
-                          Navigator.pushNamed(context, HomepageScreen.id);
-                        }
-                      } catch (e) {
-                        print(e);
-                      }
-                    },
+                    onPressed: () {},
                     child: Text(
                       'Submit',
                       style: TextStyle(fontSize: 18),

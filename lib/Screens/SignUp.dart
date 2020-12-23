@@ -1,15 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_practice/Screens/ConfirmEmail.dart';
 import 'package:flutter_practice/Screens/Homepage.dart';
 import 'package:flutter_practice/Screens/SignIn.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   static String id = 'sign-up';
+
+  @override
+  _SignUpScreenState createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   final _auth = FirebaseAuth.instance;
+
   final _formKey = GlobalKey<FormState>();
 
   String _email;
+
   String _password;
+
+  Future signUp() async {
+    _formKey.currentState.save();
+    try {
+      final newUser = await _auth.createUserWithEmailAndPassword(
+          email: _email, password: _password);
+          await newUser.user.sendEmailVerification();
+      if (newUser != null) {
+        Navigator.pushNamed(context, ConfirmEmail.id);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,21 +106,7 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                   RaisedButton(
-                    onPressed: () async {
-                      _formKey.currentState.save();
-                      try {
-                        final new_user =
-                            await _auth.createUserWithEmailAndPassword(
-                                email: _email, password: _password);
-                        print(_email);
-                        print(_password);
-                        if (new_user != null) {
-                          Navigator.pushNamed(context, HomepageScreen.id);
-                        }
-                      } catch (e) {
-                        print(e);
-                      }
-                    },
+                    onPressed: signUp,
                     child: Text(
                       'Submit',
                       style: TextStyle(fontSize: 18),
