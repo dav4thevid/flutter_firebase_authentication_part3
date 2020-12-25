@@ -6,6 +6,8 @@ import 'package:flutter_practice/Screens/SignIn.dart';
 
 class SignUpScreen extends StatefulWidget {
   static String id = 'sign-up';
+  final String message =
+      "An email has just been sent to you, Click the link provided to complete registration";
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -25,9 +27,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     try {
       final newUser = await _auth.createUserWithEmailAndPassword(
           email: _email, password: _password);
-          await newUser.user.sendEmailVerification();
+      await newUser.user.sendEmailVerification();
       if (newUser != null) {
-        Navigator.pushNamed(context, ConfirmEmail.id);
+        MaterialPageRoute(
+          builder: (context) {
+            return ConfirmEmail(
+              message: widget.message,
+            );
+          },
+        );
       }
     } catch (e) {
       print(e);

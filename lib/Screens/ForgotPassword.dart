@@ -5,6 +5,8 @@ import 'ConfirmEmail.dart';
 
 class ForgotPassword extends StatefulWidget {
   static String id = 'forgot-password';
+ final String message =
+      "An email has just been sent to you, Click the link provided to complete password reset";
 
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
@@ -13,19 +15,18 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   final _auth = FirebaseAuth.instance;
 
-  
   final _formKey = GlobalKey<FormState>();
   String _email;
 
   _passwordReset() async {
     try {
-       _formKey.currentState.save();
-      await _auth.sendPasswordResetEmail(email: _email);
+      _formKey.currentState.save();
+      final user = await _auth.sendPasswordResetEmail(email: _email);
 
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return ConfirmEmail();
+          return ConfirmEmail(message: widget.message,);
         }),
       );
     } catch (e) {
